@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -34,8 +35,10 @@ func main() {
 
 	r.Get("/hello", h.Hello)
 
+	path := fmt.Sprintf("%v:%v", cfg.Host, cfg.Port)
+
 	log.Print("starting server")
-	err = http.ListenAndServe(":8080", r)
+	err = http.ListenAndServe(path, r)
 	if err != nil {
 		log.Fatal(err)
 	}
