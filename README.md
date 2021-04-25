@@ -1,0 +1,1 @@
+<img src="https://github.com/zemags/go_workshop_1/workflows/pipeline/badge.svg?branch=master"><br>
