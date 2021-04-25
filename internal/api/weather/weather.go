@@ -15,6 +15,13 @@ type WeatherClient struct {
 	url string
 }
 
+// NewWeatherClient creates a new Weather client
+func NewWeatherClient(baseUrl string) *WeatherClient {
+	return &WeatherClient{
+		url: baseUrl,
+	}
+}
+
 func (wc *WeatherClient) GetWeather() (*api.WeatherResponse, error) {
 	urlPath := wc.url + getWeatherPath
 
@@ -22,7 +29,7 @@ func (wc *WeatherClient) GetWeather() (*api.WeatherResponse, error) {
 	if err != nil {
 		return nil, err
 	} else if resp.StatusCode != http.StatusOK {
-		return nil, fmt.Errorf("API request error: %v", http.StatusText(resp.StatusCode))
+		return nil, fmt.Errorf("API request status: %v", http.StatusText(resp.StatusCode))
 	}
 
 	var data api.WeatherResponse

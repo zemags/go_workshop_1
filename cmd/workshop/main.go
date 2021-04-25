@@ -8,6 +8,7 @@ import (
 	"path/filepath"
 
 	"github.com/go-chi/chi/v5"
+	"github.com/go_workshop_1/internal/api/weather"
 	"github.com/go_workshop_1/internal/config"
 	"github.com/go_workshop_1/internal/handler"
 	"gopkg.in/yaml.v2"
@@ -28,6 +29,8 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	apiClient := weather.NewWeatherClient(cfg.Client)
 
 	h := handler.NewHandler()
 
