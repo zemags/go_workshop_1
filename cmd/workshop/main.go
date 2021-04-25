@@ -24,6 +24,9 @@ func main() {
 
 	cfg := config.Server{}
 	err = yaml.Unmarshal(yamlFile, &cfg)
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	h := handler.NewHandler()
 
