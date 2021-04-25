@@ -30,9 +30,9 @@ func main() {
 		log.Fatal(err)
 	}
 
-	apiClient := weather.NewWeatherClient(cfg.Client)
+	apiClient := weather.NewWeatherClient(cfg.WeatherURL)
 
-	h := handler.NewHandler()
+	h := handler.NewHandler(apiClient)
 
 	r := chi.NewRouter()
 
