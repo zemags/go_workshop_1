@@ -17,7 +17,7 @@ jobs:
   deploy:
     name: Deploy on Heroku
     runs-on: ubuntu-latest
-    # need to step lint to be successful
+    # need for step lint to be successful
     needs:
       - lint
     steps:
@@ -26,11 +26,15 @@ jobs:
         env:
           # get token from repo secrets
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: heroku container: push -a ${{ secrets.HEROKU_APP_NAME }} web
+        run: heroku container:login
+      - name: build and push
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        run: heroku container:push -a ${{ secrets.HEROKU_APP_NAME }} web
       - name: Release
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: heroku container: push -a ${{ secrets.HEROKU_APP_NAME }} web
+        run: heroku container:release -a ${{ secrets.HEROKU_APP_NAME }} web
 
 
 
