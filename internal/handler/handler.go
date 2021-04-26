@@ -9,16 +9,22 @@ import (
 
 type Handler struct {
 	weatherClient api.Client
+	customWeather string
 }
 
 // Dependency injection
-func NewHandler(weatherClient api.Client) *Handler {
+func NewHandler(weatherClient api.Client, customWeather string) *Handler {
 	return &Handler{
 		weatherClient: weatherClient,
+		customWeather: customWeather,
 	}
 }
 
 func (h *Handler) Hello(w http.ResponseWriter, r *http.Request) {
+	if h.customWeather != "" {
+		fmt.Fprintf(w, h.customWeather)
+		return
+	}
 	weather, err := h.weatherClient.GetWeather()
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)

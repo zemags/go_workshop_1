@@ -33,7 +33,7 @@ func TestHandler_Hello(t *testing.T) {
 			// when call GetWeather what must return
 			apiMock.On("GetWeather").Return(tt.weather, tt.err)
 
-			h := handler.NewHandler(apiMock)
+			h := handler.NewHandler(apiMock, "")
 
 			req, _ := http.NewRequest("GET", "/hello", nil)
 			rr := httptest.NewRecorder()

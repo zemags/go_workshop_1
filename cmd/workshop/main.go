@@ -1,11 +1,16 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
+	"os/signal"
 	"path/filepath"
+	"syscall"
+	"time"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go_workshop_1/internal/api/weather"
@@ -32,7 +37,7 @@ func main() {
 
 	apiClient := weather.NewWeatherClient(cfg.WeatherURL)
 
-	h := handler.NewHandler(apiClient)
+	h := handler.NewHandler(apiClient, cfg.CustomWeather)
 
 	r := chi.NewRouter()
 
@@ -40,10 +45,34 @@ func main() {
 
 	path := fmt.Sprintf("%v:%v", cfg.Host, cfg.Port)
 
-	log.Print("starting server")
-	err = http.ListenAndServe(path, r)
-	if err != nil {
-		log.Fatal(err)
+	srv := &http.Server{
+		Addr:    path,
+		Handler: r,
 	}
-	log.Print("server shutdown")
+	// handle shutdown gracefully
+	// receive channel for incoming signal
+	quit := make(chan os.Signal, 1)
+	// read in the and to understand that program end down
+	done := make(chan error, 1)
+	signal.Notify(quit, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
+
+	// goroutine wating for signal (os.Interrupt,
+	// syscall.SIGINT, syscall.SIGTERM)
+	go func() {
+		<-quit
+		// when received signal
+		// when Background context is closing the child context close before
+		ctx, cancel := context.WithTimeout(context.Background(), time.Minute)
+		defer cancel()
+		err := srv.Shutdown(ctx)
+		// ....
+		done <- err
+	}()
+
+	log.Print("starting server")
+	_ = srv.ListenAndServe()
+
+	err = <-done
+
+	log.Printf("server shutdown with %v", err)
 }

@@ -5,5 +5,6 @@ type Server struct {
 	Port string `yaml:"port" env:"PORT"`
 	Host string `yaml:"host" env:"HOST" env-default:"0.0.0.0"`
 
-	WeatherURL string `yaml:"weather-url" env:"WEATHER_URL"`
+	WeatherURL    string `yaml:"weather-url" env:"WEATHER_URL"`
+	CustomWeather string `env:"CUSTOM_WEATHER"`
 }
