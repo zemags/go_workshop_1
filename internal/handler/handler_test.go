@@ -1,4 +1,4 @@
-package handler
+package handler_test
 
 import (
 	"io/ioutil"
@@ -8,6 +8,7 @@ import (
 
 	"github.com/go_workshop_1/internal/api"
 	"github.com/go_workshop_1/internal/api/mocks"
+	"github.com/go_workshop_1/internal/handler"
 )
 
 func TestHandler_Hello(t *testing.T) {
@@ -32,7 +33,7 @@ func TestHandler_Hello(t *testing.T) {
 			// when call GetWeather what must return
 			apiMock.On("GetWeather").Return(tt.weather, tt.err)
 
-			h := NewHandler(apiMock)
+			h := handler.NewHandler(apiMock)
 
 			req, _ := http.NewRequest("GET", "/hello", nil)
 			rr := httptest.NewRecorder()
