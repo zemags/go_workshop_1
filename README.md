@@ -4,7 +4,7 @@
 * cmd
   * app name folder (in case **workshop**)
     * main.go
-* internal (interval libs, like a helper)
+* internal (interтal libs, like a helper)
   * handler folder
     * handler.go (structures, all dependencies)
 * Dockerfile
@@ -20,4 +20,4 @@ golangci-lint run cmd/workshop/main.go
 mockery --name=Client --dir=internal/api --output=internal/api/mocks
 ```
 ##### For mocks generating
-- mockerym, ginkgo
+- mockery, ginkgo
