@@ -8,7 +8,7 @@ import (
 	"github.com/go_workshop_1/internal/api"
 )
 
-const getWeatherPath = "/api?format=json"
+const getWeatherPath = "/api.pl?lon=100.884&lat=12.922&product=civillight&output=json"
 
 // WeatherClient is a weather API client
 type WeatherClient struct {

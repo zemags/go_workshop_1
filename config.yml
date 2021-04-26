@@ -1,2 +1,2 @@
 port: "8080"
-weather-url: https://www.7timer.info/bin/api.pl?lon=100.884&lat=12.922&product=civillight&output=json
+weather-url: https://www.7timer.info/bin
